@@ -1,23 +1,10 @@
 <?php
-function random_pw() {
+include_once __DIR__ . '/functions.php';
 
-    $pw_characters = [
-        'abcdefghilmnopqrstuvz',
-        'ABCDEFGHILMNOPQRSTUVZ',
-        '123456789',
-        '£%&?_#'
-    ];
-    $pw ='';
-    for($i = 0; $i < 9; $i++) {
-        $index_characters = rand(0, 3);
-        $last = strlen($pw_characters[$index_characters]) -1;
-        $pw .= $pw_characters[$index_characters][rand(0,$last)];
-    }
-    return $pw;
+if (!empty($_GET['pw-length'])) {
+    $pw_length = intval($_GET['pw-length']) ? intval($_GET['pw-length']) : 8;
+    $pw = random_pw($_GET['pw-length']);
 }
-
-$my_pw = $_GET['randomPw'];
-$my_pw_length = strlen($pw);
 
 
 ?>
@@ -30,16 +17,16 @@ $my_pw_length = strlen($pw);
 </head>
 <body>
     <h1>Generatore pw</h1>
-     <form method="GET">
-   
-      <button name="randomPw">Genera PW casuale</button>
-
-
-
+     <form method="GET" action="index.php">
+      <label for="pw-length">
+        selezionare la lunghezza della pw
+      </label>
+      <input type="number" name="pw-length" id="pw-length">
+      <button>Genera PW casuale</button>
      </form>
  
-     <p> <?php echo random_pw() ?> </p>
-     <p> <?php echo $my_pw_length ?> </p>
+     <p> la tua pw di lunghezza <?php echo $pw_length ?> è <?php echo $pw ?> </p>
+     
      
 </body>
 </html>
